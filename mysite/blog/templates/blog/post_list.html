@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% load static %}
+
+{% block content %}
+
+
+<section id="blog" class="blog">
+    <div class="content container">
+
+        <h2 class="title center">What we're up to</h2>
+        <div class="row">
+
+
+            {% block post %}
+            {% for post in posts %}
+            <div class="post">
+                <div class="container col s6">
+                    <div class="card">
+                    <div class="card-content">
+                        <span class="card-title activator grey-text text-darken-4">{{ post.title }}<i
+                                class="material-icons right">more_vert</i></span>
+                        <p><a href="{% url 'post_detail' pk=post.pk %}">Goto {{ post.title }}</a></p>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ post.title }}<i
+                                class="material-icons right">close</i></span>
+                        <p>{{ post.text|linebreaksbr }}</p> <hr>
+                         {{ post.published_date }}
+                    </div>
+                        </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endblock %}
+
+        </div>
+
+</section>
+
+
+<section id="team" class="team section">
+    <div class="container">
+        <h2 class="title">The team</h2>
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <img class="responsive-img" src="{% static 'blog/8.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <h3>Bill</h3>
+                        <p>
+                            CTO
+                        </p>
+                        <div class="social-icons">
+                            <ul>
+                                <a href="https://www.facebook.com">
+                                    <li><span class="ion-social-facebook"></span></li>
+                                </a>
+                                <a href="https://www.twitter.com">
+                                    <li><span class="ion-social-twitter"></span></li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <img class="responsive-img" src="{% static 'blog/10.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <h3>Bob</h3>
+                        <p>
+                            The Boss
+                        </p>
+                        <div class="social-icons">
+                            <ul>
+                                <a href="https://www.facebook.com">
+                                    <li><span class="ion-social-facebook"></span></li>
+                                </a>
+                                <a href="https://www.twitter.com">
+                                    <li><span class="ion-social-twitter"></span></li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <img class="responsive-img" src="{% static 'blog/9.jpg' %}">
+                    </div>
+                    <div class="card-content">
+                        <h3>Jim</h3>
+                        <p>
+                            CFO
+                        </p>
+                        <div class="social-icons">
+                            <ul>
+                                <a href="https://www.facebook.com">
+                                    <li><span class="ion-social-facebook"></span></li>
+                                </a>
+                                <a href="https://www.twitter.com">
+                                    <li><span class="ion-social-twitter"></span></li>
+                                </a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact section">
+    <div class="container">
+        <h2 class="title">Say Hello</h2>
+        <div class="row">
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="fa fa-map-o" aria-hidden="true"></span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Address</h3>
+                        <p>
+                            <a href="https://www.google.nl/maps/place/Eindhoven/@51.4454742,5.311428,11z/data=!3m1!4b1!4m5!3m4!1s0x47c6d91b5579c39f:0xf39ad2648164b998!8m2!3d51.441642!4d5.4697225"
+                               target="_top">5600 Eindhoven</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="fa fa-phone" aria-hidden="true"></span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Phone</h3>
+                        <p>
+                            <a href="tel:5551234567" target="_top">Some number</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="fa fa-paper-plane" aria-hidden="true"></span>
+                    </div>
+                    <div class="card-content">
+                        <h3>Email</h3>
+                        <p>
+                            <a href="mailto:hey@tue.nl" target="_top">Send Mail</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12">
+                <div class="social-icons">
+                    <ul>
+                        <a href="https://www.facebook.com">
+                            <li><span class="ion-social-facebook"></span></li>
+                        </a>
+                        <a href="https://www.twitter.com">
+                            <li><span class="ion-social-twitter"></span></li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

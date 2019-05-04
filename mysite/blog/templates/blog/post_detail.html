@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card">
+
+        <span class="card-title">{{post.title}}</span>
+
+        <div class="card-content">
+            <p>
+                {{ post.text|linebreaksbr }}
+            </p>
+            <hr>
+            {% if post.published_date %}
+            <div class="date">
+                Posted on {{ post.published_date }} <br>
+            </div>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated %}
+        <div class="card-action"><a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">Edit Post<span
+                class="glyphicon glyphicon-pencil"></span></a>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+
+{% endblock %}

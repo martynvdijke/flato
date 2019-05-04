@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+  blockquote{
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 5px solid #607D8B; /* Just change the color value and that's it*/
+}
+
+</style>
+<div class="container">
+    <div class="card">
+        <div class="container">
+            <br> <br>
+
+
+            <br>
+            <form action="search/" method="post">{% csrf_token %}
+                <p class="caption">Choose topics to display </p>
+                <div name="chips" class="chips  chips-autocomplete chips-initial">
+                </div>
+                <blockquote>
+                    Topics to choose from are <br>
+                    General, Business, Politics, Sport, Gaming, Technology
+                </blockquote>
+
+
+                Number of news items to display
+                <p class="range-field">
+                    <input type="range" id="newsnumber" name="newsnumber" min="1" max="100"/>
+                </p>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input placeholder="Blockchain" id="title" name="title" type="text" class="validate">
+                        <label for="title">Title must contain</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="John Doe" id="author" name="author" type="text" class="validate">
+                        <label for="author">Author name must contain</label>
+                    </div>
+                    <div class="input-field col s6 ">
+                    <textarea placeholder="Blockchain bitcoin value" name="description" id="description"
+                              class="materialize-textarea"
+                              class="validate"></textarea>
+                        <label for="description">Description must contain</label>
+                    </div>
+                    <div class="col s6">
+                        <input type="text" name="time" placeholder="Limit time" class="timepicker">
+                    </div>
+                </div>
+                <p>
+                    Clearing will clear the title, author, description and time input<br>
+                </p>
+                <div class="row">
+                    <button class="btn waves-effect waves-light col s3" type="submit" name="action">Search
+                        <i class="material-icons right">search</i>
+                    </button>
+            </form>
+            <form action="clear/" method="post">{% csrf_token %}
+                <button class="btn waves-effect waves-light right col s3" type="submit" name="action">Clear
+                    <i class="material-icons right">clear</i>
+                </button>
+            </form>
+        </div>
+        <br>
+    </div>
+</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 cards-container">
+
+            {% for object in newslist %}
+
+            <div class="card hoverable verge">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="{{object.image}}">
+                </div>
+                <div class="card-content">
+
+                    <span class="card-title activator grey-text text-darken-4">{{ object.title }}<i
+                            class="material-icons right">more_vert</i></span>
+                    <div class="chip right">
+                        {{ object.tag }}
+                    </div>
+                    <div class="chip right">
+                        {{ object.source }}
+                    </div>
+                    <p><a class="waves-effect waves-light btn" href="news/{{object.slug}}">Go to post</a>
+
+
+                    </p>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{ object.title}}<i class="material-icons right">close</i></span>
+                    <p>{{ object.description}}</p>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+
+{% if movielist %}
+<div class="container">
+    <div class="card">
+        <div class="container center">
+            <h1>Movies</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 cards-container">
+
+            {% for object in movielist %}
+
+            <div class="card hoverable verge">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="http://image.tmdb.org/t/p/w780/{{object.poster_path}}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title activator grey-text text-darken-4">{{ object.title }}<i
+                            class="material-icons right">more_vert</i></span>
+                    <p><a class="waves-effect waves-light btn" href="movie/{{object.slug}}">Go to post</a></p>
+                </div>
+                <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{ object.title}}<i class="material-icons right">close</i></span>
+                    <p>{{ object.overview }}</p>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+
+{% endblock %}

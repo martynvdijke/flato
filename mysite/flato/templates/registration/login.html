@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+
+{% block content %}
+
+<br>
+<br>
+
+
+<div class="container">
+    <center>
+
+        <div class="z-depth-1 grey lighten-4 row"
+             style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+            <h2>Login</h2>
+            <h3>
+                Welcome back, we were missing you. <i class="em em-astonished"></i>
+            </h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn waves-effect waves-light" type="submit">Login</button>
+            </form>
+            <br>
+        </div>
+
+    </center>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <h1 class="header center">Flato</h1>
+        <div class="row center">
+            <h4 class="header col s12 light center">A modern news site</h4>
+        </div>
+        <div class="row center">
+            <a href="/feed"
+               class="btn-large waves-effect waves-light">To The Feed</a>
+        </div>
+        <div class="row center">
+            <a href="/post_list"
+               class="btn-large waves-effect waves-light">About Us</a>
+        </div>
+        <br>
+    </div>
+</div>
+
+  <div class="slider">
+    <ul class="slides">
+      <li>
+        <img src="{% static 'images/1.jpg' %}">
+        <div class="caption left-align">
+          <h3>Flato</h3>
+          <h5 class="blue-text text-light-1">News that matters.</h5>
+        </div>
+      </li>
+
+      <li>
+        <img src="{% static 'images/11.jpg' %}">
+        <div class="caption right-align">
+          <h3>Flato</h3>
+          <h5 class="blue-text text-light-1">Where news excels.</h5>
+        </div>
+      </li>
+
+        <li>
+        <img src="{% static 'images/3.jpg' %}">
+        <div class="caption left-align">
+          <h3>Flato</h3>
+          <h5 class="blue-text text-light-1">Social news made better.</h5>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+
+
+
+{% endblock %}

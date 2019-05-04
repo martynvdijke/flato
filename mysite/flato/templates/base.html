@@ -1,0 +1,272 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Google Analytics -->
+  <style>
+
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+
+  </style>
+  <!-- Font import -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import css-->
+  <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="{% static 'css/grid.css' %}" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="{% static 'css/palette.css' %}" media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="{% static 'css/emoji.css' %}" media="screen,projection"/>
+
+
+
+  <title>
+    Flato
+  </title>
+  <link rel="shortcut icon" href="{% static 'images/icon/icon.ico' %}"/>
+  <!-- meta deta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper dark-primary-color">
+      <a href="/" class="brand-logo center"><img height="50em" src="{% static 'images/icon/icon.ico' %}"/></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <div class="userinfo">
+        <div class="right-align">
+
+          <div class="right">
+            <div class="left">
+              <a class="modal-trigger" href="#account"><i class="material-icons">account_circle</i></a>
+            </div>
+            &nbsp; <a class="modal-trigger" href="#account">
+              {{ user_name }}
+              &nbsp;</a>
+            </div>
+          </div>
+        </div>
+        <ul class="right hide-on-med-and-down">
+          {% if user.is_authenticated %}
+          <li>Welcome {{ user.username }}</li>
+          <li><a href="/logout">Logout</a></li>
+          <li><a class="modal-trigger" href="#account">Account</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/feed">Feed</a></li>
+           <li><a href="/post_list">About us</a></li>
+          {% else %}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Sign up</a></li>
+          {% endif %}
+        </ul>
+
+        <ul class="side-nav" id="mobile-demo">
+          {% if user.is_authenticated %}
+          <li><a href="/logout">Logout</a></li>
+          <li><a class="modal-trigger" href="#account">Account</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/feed">Feed</a></li>
+           <li><a href="/post_list">About us</a></li>
+          {% else %}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup">Sign up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <!--Modal's -->
+
+
+
+    <div id="account" class="modal">
+      <div class="modal-content">
+        <h4 class="primary-text-color">Account settings</h4>
+        <div class="row">
+          <form class="col s12" action="/update" method="post">{% csrf_token %}
+            <div class="row">
+              <div class="input-field col s6">
+                <i class="material-icons prefix">account_circle</i>
+                <input placeholder="{{user.first_name}}" id="icon_prefix" name="firstname" type="text"
+                class="validate">
+                <label for="icon_prefix">First Name</label>
+              </div>
+              <div class="input-field col s6">
+                <i class="material-icons prefix">account_circle</i>
+                <input placeholder="{{user.last_name}}" id="icon_prefix" name="lastname" type="text"
+                class="validate">
+                <label for="icon_prefix">Last Name</label>
+              </div>
+              <div class="input-field col s12">
+                <i class="material-icons prefix">face</i>
+                <input placeholder="{{user.username}}" id="icon_prefix" name="username" type="text"
+                class="validate">
+                <label for="icon_prefix">User name</label>
+              </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+              <i class="material-icons right">send</i>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+      </div>
+    </div>
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+
+    <footer class="page-footer dark-primary-color">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Flato <img height="50em" src="{% static 'images/icon/icon.png' %}"/></h5>
+            <p class="grey-text text-lighten-4">Made for the 2ID60 Web technology course given on the TU/e</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2017 Copyright TU/e
+          <a class="grey-text text-lighten-4 right" href="https://www.tue.nl/">TU/e</a>
+        </div>
+      </div>
+    </footer>
+
+
+
+    <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+
+    <script>
+   $(document).ready(function(){
+      $('.slider').slider();
+    });
+
+    $( document ).ready(function() {
+      $(".button-collapse").sideNav();
+      $('.modal').modal();
+
+      $(".comment_reply_link").click(function(){
+        $(this).siblings("#form-comment").toggle();
+      });
+
+
+      $('.chips').material_chip();
+      $('.chips').on('chip.delete', function(e, chip){
+        $.ajax({
+          url: 'deletechip',
+          data: {
+            'chip': chip['tag']
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.is_taken) {
+              alert("error");
+              console.log("test");
+            }
+          }
+        });
+
+      });
+
+      $('.chips').on('chip.add', function(e, chip){
+        $.ajax({
+          url: 'addchip',
+          data: {
+            'chip': chip['tag']
+          },
+          dataType: 'json',
+          success: function (data) {
+            if (data.is_taken) {
+              alert("error");
+            }
+          }
+        });
+      });
+
+      $('.chips-initial').material_chip({
+        data: [
+          {% if general == "True" %}
+          {
+            tag: 'General',
+          },
+          {% endif %}
+          {% if technology == "True" %}
+          {
+            tag: 'Technology',
+          },
+          {% endif %}
+          {% if business == "True" %}
+          {
+            tag: 'Business',
+          },
+          {% endif %}
+          {% if gaming == "True" %}
+          {
+            tag: 'Gaming',
+          },
+          {% endif %}
+          {% if sport == "True" %}
+          {
+            tag: 'Sport',
+          },
+          {% endif %}
+          {% if politics == "True" %}
+          {
+            tag: 'Politics',
+          }
+          {% endif %}
+        ],
+        autocompleteOptions: {
+          data: {
+            'General': null,
+            'Technology': null,
+            'Business': null,
+            'Sport': null,
+            'Gaming': null,
+            'Politics': null,
+          },
+          limit: Infinity,
+          minLength: 1
+        }
+      });
+
+
+
+
+    });
+
+
+
+  </script>
+  <script>
+  $('.timepicker').pickatime({
+    default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+    fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+    twelvehour: false, // Use AM/PM or 24-hour format
+    donetext: 'Select', // text for done-button
+    cleartext: 'Clear', // text for clear-button
+    canceltext: 'Cancel', // Text for cancel-button
+    autoclose: true, // automatic close timepicker
+    ampmclickable: true, // make AM PM clickable
+    aftershow: function(){} //Function for after opening timepicker
+  });
+</script>
+
+<!--Import js -->
+
+
+</body>
+</html>

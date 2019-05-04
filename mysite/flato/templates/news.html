@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load comments %}
+{% load threadedcomments_tags %}
+
+{% block content %}
+
+{%if news %}
+<div class="container">
+  <div class="card">
+    <div class="card-image">
+      <img src="{{news.image}}">
+      <span class="card-title">{{news.title}}</span>
+    </div>
+    <div class="card-content">
+      <p>
+        {{news.description}}
+      </p>
+    </div>
+    <div class="card-action">
+      <a href="{{news.link}}">{{news.source}}</a>
+    </div>
+
+  </div>
+
+  <div class="z-depth-1 lighten-4 row"
+  style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+
+{% get_comment_list for news as comment_list %}
+
+
+{% for comment in comment_list|fill_tree|annotate_tree %}
+<div>
+{% ifchanged comment.parent_id %}{% else %} </li>{% endifchanged %}
+{% if not comment.open and not comment.close %}</li>{% endif %}
+{% if comment.open %} <div style="padding-left: 50px;"> <ul> {% endif %}
+<li id="c{{ comment.id }}" style="border-style: solid; border-width: 1px; padding: 10px; margin: 2px;">
+  {{ comment.user_name }}
+  {{ comment.submit_date|date:"d M Y, H:i" }}
+  <a data-comment-id="{{ comment.id }}" class="comment_reply_link">Reply</a>
+  <br>
+  {{ comment.comment }}
+  <br>
+  <div id="form-comment" style="display: none;">
+    {% if user.is_authenticated %}
+    {% get_comment_form for news as form with comment.id %}
+    <form action="{% comment_form_target %}" method="POST">
+      {% csrf_token %}
+      {{ form.comment }}
+      {{ form.content_type }}
+      {{ form.object_pk }}
+      {{ form.timestamp }}
+      {{ form.security_hash }}
+      {{ form.parent }}
+      <input class="btn waves-effect waves-light" type="submit" value="Add comment" id="id_submit" />
+      <input type="hidden" name="next" value="{{ request.path }}" />
+    </form>
+    {% else %}
+    <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+    {% endif %}
+
+  </div>
+  {% for close in comment.close %}</li> </div> </ul>{% endfor %}
+  {% endfor %}
+
+
+  {% if user.is_authenticated %}
+  {% get_comment_form for news as form %}
+  <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    {{ form.comment }}
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input class="btn waves-effect waves-light" type="submit" value="Add comment" id="id_submit" />
+    <input type="hidden" name="next" value="{{ request.path }}" />
+  </form>
+  {% else %}
+  <p>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment.</p>
+  {% endif %}
+  <br>
+  <br>
+</div>
+</div>
+
+<br>
+<br>
+{% endif %}
+
+
+
+{% endblock %}

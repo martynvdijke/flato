@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<body background="assets/images/1.jpg">
+    <div class="container">
+        <h1 class="header center">Flato</h1>
+        <div class="row center">
+            <h4 class="header col s12 light center">A modern news site</h4>
+        </div>
+        <div class="row center">
+            <a href="/feed"
+               class="btn-large waves-effect waves-light">To The Feed</a>
+        </div>
+        <div class="row center">
+<<<<<<< HEAD
+            <a href="/blog"
+=======
+            <a href="/post_list"
+>>>>>>> niel
+               class="btn-large waves-effect waves-light">About Us</a>
+        </div>
+        <br>
+    </div>
+</div>
+<<<<<<< HEAD
+=======
+</body>
+>>>>>>> niel
+
+
+
+
+
+
+
+{% endblock %}
